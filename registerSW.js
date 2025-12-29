@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/elfas-learn-english-magic/sw.js', { scope: '/elfas-learn-english-magic/' })})}
