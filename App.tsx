@@ -44,6 +44,7 @@ const App: React.FC = () => {
   const [activeCorrection, setActiveCorrection] = useState<Correction | null>(null);
   const [isVoiceActive, setIsVoiceActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<any>(null);
 
   // Topic Filtering & Search
   const [filterLevel, setFilterLevel] = useState<DifficultyLevel | 'ALL'>('ALL');
@@ -89,7 +90,24 @@ const App: React.FC = () => {
     if (savedVocab) setVocabulary(JSON.parse(savedVocab));
 
     if (window.innerWidth >= 1024) setIsSidebarOpen(true);
+
+    // PWA Install Prompt Handler
+    const handler = (e: any) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
   }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const { outcome } = await installPrompt.userChoice;
+    if (outcome === 'accepted') {
+      setInstallPrompt(null);
+    }
+  };
 
   useEffect(() => {
     localStorage.setItem('elfas_level_history', JSON.stringify(levelHistory));
@@ -305,7 +323,7 @@ const App: React.FC = () => {
       <div className={`fixed inset-0 z-[60] lg:relative lg:inset-auto lg:z-auto lg:w-64 flex-shrink-0 transition-opacity duration-300 ${isNavOpen ? 'opacity-100' : 'opacity-0 pointer-events-none lg:opacity-100 lg:pointer-events-auto'}`}>
          <div className="absolute inset-0 bg-slate-900/40 lg:hidden" onClick={() => setIsNavOpen(false)}></div>
          <aside className={`absolute lg:relative left-0 top-0 h-full w-64 bg-emerald-900 text-white shadow-2xl lg:shadow-none transition-transform duration-300 ${isNavOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
-            <div className="p-6">
+            <div className="p-6 h-full flex flex-col">
               <div className="flex items-center gap-3 mb-10">
                 <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-lg">
                   <i className="fa-solid fa-hat-wizard text-emerald-700 text-xl"></i>
@@ -316,7 +334,7 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <nav className="space-y-2">
+              <nav className="space-y-2 flex-1">
                 <button onClick={() => navigateTo('FREE_CHAT')} className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${currentView === 'FREE_CHAT' ? 'bg-white/10 text-white' : 'text-emerald-300 hover:bg-white/5'}`}>
                   <i className="fa-solid fa-comments w-5"></i> Free Chat
                 </button>
@@ -326,6 +344,12 @@ const App: React.FC = () => {
                 <button onClick={() => navigateTo('LEVEL_TEST')} className={`w-full flex items-center gap-3 p-3 rounded-xl transition-all ${currentView === 'LEVEL_TEST' ? 'bg-white/10 text-white' : 'text-emerald-300 hover:bg-white/5'}`}>
                   <i className="fa-solid fa-graduation-cap w-5"></i> Level Test
                 </button>
+
+                {installPrompt && (
+                  <button onClick={handleInstallClick} className="w-full flex items-center gap-3 p-3 mt-4 rounded-xl bg-yellow-400 text-emerald-900 font-bold hover:bg-yellow-300 transition-all">
+                    <i className="fa-solid fa-download w-5"></i> Install App
+                  </button>
+                )}
               </nav>
 
               <div className="mt-10 pt-10 border-t border-white/10">
@@ -394,7 +418,7 @@ const App: React.FC = () => {
                        type="text" 
                        value={searchQuery}
                        onChange={(e) => setSearchQuery(e.target.value)}
-                       placeholder="Search magic topics..."
+                       placeholder="Search topics..."
                        className="w-full bg-slate-50 border border-slate-200 rounded-xl py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                      />
                      <i className="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -425,7 +449,7 @@ const App: React.FC = () => {
                 {filteredTopics.length === 0 && (
                   <div className="text-center py-20 text-slate-400">
                     <i className="fa-solid fa-wand-sparkles text-5xl mb-4 opacity-10"></i>
-                    <p className="font-medium">No topics match your spell.</p>
+                    <p className="font-medium">No topics match your search.</p>
                     <button onClick={() => { setSearchQuery(''); setFilterLevel('ALL'); }} className="mt-4 text-emerald-600 font-bold text-sm underline">Reset filters</button>
                   </div>
                 )}

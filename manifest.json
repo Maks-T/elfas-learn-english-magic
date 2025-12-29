@@ -1,0 +1,21 @@
+
+{
+  "name": "Elfas: Learn English Magic",
+  "short_name": "Elfas",
+  "description": "Интерактивное приложение для изучения английского языка с ИИ. Практикуй общение голосом!",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8fafc",
+  "theme_color": "#065f46",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3233/3233508.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
