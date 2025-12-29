@@ -9,7 +9,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Elfas">
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3233/3233508.png">
-    <link rel="manifest" href="/elfas-learn-english-magic/assets/manifest-NpFvUmxA.json">
+    
+    <!-- Ссылка на манифест должна быть без хеша, Vite обработает её при сборке -->
+    <link rel="manifest" href="/elfas-learn-english-magic/assets/manifest-DhvejYCB.json">
+    
     <title>Elfas - Learn English Magic</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -23,13 +26,11 @@
             70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
-        .sidebar-transition {
-            transition: transform 0.3s ease-in-out;
-        }
     </style>
 
-<!--<link rel="stylesheet" href="/index.css">-->
-<script type="importmap">
+
+<link rel="stylesheet" href="/index.css">
+    <script type="importmap">
 {
   "imports": {
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
@@ -40,9 +41,10 @@
   }
 }
 </script>
-  <script type="module" crossorigin src="/elfas-learn-english-magic/assets/index-B2F6Vqs3.js"></script>
+  <script type="module" crossorigin src="/elfas-learn-english-magic/assets/index-CMAd8awt.js"></script>
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div id="root"></div>
+    <!-- Точка входа в приложение. Vite сам заменит это на скомпилированный скрипт при сборке -->
 </body>
 </html>
