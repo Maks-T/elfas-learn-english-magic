@@ -1,0 +1,8 @@
+
+{
+  "name": "Elfas - Learn English Magic",
+  "description": "Интерактивное приложение для изучения английского языка с магией ИИ. Голосовое общение, исправление ошибок и персональный словарь.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
